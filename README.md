@@ -21,13 +21,13 @@ Now let's see how to connect to a MongoDB server and fetch the list of all the d
 To connect to a MongoDB server, you need to specify a `mongo` field in your request header and set the value to your MongoDB connection string. An example with curl is shown below:
 
 ```
-curl -H "mongo: mongodb+srv://username:password@domain" http://mongo.intercord.co/databases | json_pp
+curl -H "mongo: mongodb+srv://username:password@hostname" http://mongo.intercord.co/databases | json_pp
 ```
 ![List Databases Example](https://user-images.githubusercontent.com/48928718/113518170-7a94fd80-957c-11eb-8dec-ddb54608820e.jpg)
 
 ...and, that'a it!. 
 
-Note: When testing the above, remember to replace the connection string `mongodb+srv://username:password@domain` with your own.
+Note: When testing the above, remember to replace the connection string `mongodb+srv://username:password@hostname` with your own.
 
 ## API endpoints
 Note: All API endpoints have an optional query parameter called options.
