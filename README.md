@@ -23,5 +23,6 @@ To connect to a MongoDB server, you need to specify a `mongo` field in your requ
 ```
 curl -H "mongo: mongodb+srv://username:password@domain" http://mongo.intercord.co/databases | json_pp
 ```
-![Example 1](https://user-images.githubusercontent.com/48928718/113517393-8fbb5d80-9577-11eb-8623-3badae6fe64f.png)
+![List Databases Example](https://user-images.githubusercontent.com/48928718/113518170-7a94fd80-957c-11eb-8dec-ddb54608820e.jpg)
+
 When testing the above, remember to replace the connection string `mongodb+srv://username:password@domain` with your own.
