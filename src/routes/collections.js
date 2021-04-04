@@ -4,6 +4,7 @@ const indexes = require("../controllers/indexes");
 
 module.exports = async (app) => {
   app.get("/", collections.listAll);
+  app.get("/:name", collections.findOne);
   app.post("/", collections.create);
   app.put("/:name", collections.rename);
   app.delete("/:name", collections.drop);

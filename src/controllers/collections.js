@@ -1,3 +1,4 @@
+const JSONStream = require("JSONStream");
 const Mongo = require("../Mongo");
 
 module.exports = {
@@ -7,10 +8,27 @@ module.exports = {
     const mongo = new Mongo(headers.mongo);
     const db = await mongo.open();
     query.options = query.options ? JSON.parse(query.options) : null;
+    const cursor = await db.listCollections({}, query.options);
+    cursor
+      .pipe(JSONStream.stringify())
+      .pipe(reply.raw.setHeader("Content-Type", "application/json"));
+    cursor.on("end", () => {
+      cursor.close();
+      mongo.close();
+    });
+  },
+
+  async findOne(request, reply) {
+    const { headers, query, params } = request;
+
+    const mongo = new Mongo(headers.mongo);
+    const db = await mongo.open();
+    query.options = query.options ? JSON.parse(query.options) : null;
+
     const collections = await db.listCollections({}, query.options).toArray();
     mongo.close();
 
-    return collections;
+    return collections.find((coll) => coll.name == params.name);
   },
 
   async create(request, reply) {
