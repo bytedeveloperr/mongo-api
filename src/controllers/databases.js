@@ -10,5 +10,16 @@ module.exports = {
     mongo.close();
 
     return databases;
+  },
+
+  async create(request, reply) {
+  	const { headers, query, body } = request;
+
+    const mongo = new Mongo(headers.mongo);
+    const db = await mongo.open(body.database);
+    await db.createCollection(body.collection, body.options);
+    mongo.close();
+
+    return { created: true, database: body.database, collection: body.collection };
   }
 };

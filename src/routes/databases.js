@@ -3,4 +3,5 @@ const documents = require("../controllers/documents");
 
 module.exports = async (app) => {
   app.get("/", databases.listAll);
+  app.post("/", databases.create);
 };
