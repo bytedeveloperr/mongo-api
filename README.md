@@ -25,4 +25,20 @@ curl -H "mongo: mongodb+srv://username:password@domain" http://mongo.intercord.c
 ```
 ![List Databases Example](https://user-images.githubusercontent.com/48928718/113518170-7a94fd80-957c-11eb-8dec-ddb54608820e.jpg)
 
-When testing the above, remember to replace the connection string `mongodb+srv://username:password@domain` with your own.
+...and, that'a it!. 
+
+Note: When testing the above, remember to replace the connection string `mongodb+srv://username:password@domain` with your own.
+
+## API endpoints
+Note: All API endpoints have an optional query parameter called options.
+
+| Description | Endpoint | Method | Body |
+|------|----------|--------|------|
+|Get all databases|/databases|GET|
+|Create database. database name and a collection is required|/databases|POST|{"database": "db name", "collection": "coll name"}
+|Get a single database with the database name|/database/:name|GET
+|Get all collections in the database|/collections|GET
+|Get a single database with the collection name|/collections/:name|GET
+|Create a collection|/collections|POST|{ "name": "name" }
+|Rename a collection|/collections/:name|PUT|{ "from": "old collection name", "to":"new collection name"}
+|Delete a collection|/collections/:name|DELETE|
