@@ -1,4 +1,5 @@
 const collections = require("./collections");
+const databases = require("./databases");
 
 module.exports = async (app) => {
   app.get("/", async (request, reply) => {
@@ -6,4 +7,5 @@ module.exports = async (app) => {
   });
 
   app.register(collections, { prefix: "/collections" });
+  app.register(databases, { prefix: "/databases" });
 };

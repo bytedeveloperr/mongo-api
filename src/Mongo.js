@@ -22,6 +22,14 @@ class Mongo {
     return this.client.db(dbname);
   }
 
+  async openAdmin(dbname) {
+    const conn = await this.connect();
+    if (!dbname) {
+      return this.client.db(conn.s.options.dbName).admin();
+    }
+    return this.client.db(dbname).admin();
+  }
+
   async close() {
     return this.client.close();
   }
