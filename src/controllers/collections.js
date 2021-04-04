@@ -54,7 +54,7 @@ module.exports = {
 
     const mongo = await new Mongo(headers.mongo);
     const db = await mongo.open();
-    
+
     query.options = query.options ? JSON.parse(query.options) : null;
     const stats = await db.stats(query.options);
     mongo.close();

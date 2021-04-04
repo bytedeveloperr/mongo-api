@@ -36,6 +36,42 @@ module.exports = {
     });
   },
 
+  async distinct(request, reply) {
+    const { headers, params, query } = request;
+
+    const mongo = new Mongo(headers.mongo);
+    const db = await mongo.open();
+    query.query = query.query ? wrap_id(JSON.parse(query.query)) : {};
+    query.options = query.options ? JSON.parse(query.options) : null;
+
+    const distinct = await db
+      .collection(params.name)
+      .distinct(query.key, query.query, query.options);
+    mongo.close();
+
+    return distinct;
+  },
+
+  async aggregate(request, reply) {
+    const { headers, params, query } = request;
+
+    const mongo = new Mongo(headers.mongo);
+    const db = await mongo.open();
+    query.pipeline = query.pipeline ? wrap_id(JSON.parse(query.pipeline)) : [];
+    query.options = query.options ? JSON.parse(query.options) : null;
+
+    const cursor = await db
+      .collection(params.name)
+      .aggregate(query.pipeline, query.options);
+    cursor
+      .pipe(JSONStream.stringify())
+      .pipe(reply.raw.setHeader("Content-Type", "application/json"));
+    cursor.on("end", () => {
+      cursor.close();
+      mongo.close();
+    });
+  },
+
   async findOne(request, reply) {
     const { headers, params, query } = request;
 

@@ -24,7 +24,7 @@ module.exports = {
     query.options = query.options ? JSON.parse(query.options) : null;
     const index = await db
       .collection(params.name)
-      .createIndex(body.fields, query.options)
+      .createIndex(body.fields, query.options);
     mongo.close();
 
     return { created: true, index };
@@ -36,9 +36,7 @@ module.exports = {
     const mongo = new Mongo(headers.mongo);
     const db = await mongo.open();
     query.options = query.options ? JSON.parse(query.options) : null;
-    await db
-      .collection(params.name)
-      .dropIndex(query.index, query.options)
+    await db.collection(params.name).dropIndex(query.index, query.options);
     mongo.close();
 
     return { deleted: true };
@@ -50,9 +48,7 @@ module.exports = {
     const mongo = new Mongo(headers.mongo);
     const db = await mongo.open();
     query.options = query.options ? JSON.parse(query.options) : null;
-    await db
-      .collection(params.name)
-      .dropIndexes(query.options)
+    await db.collection(params.name).dropIndexes(query.options);
     mongo.close();
 
     return { deleted: true };
@@ -66,9 +62,9 @@ module.exports = {
     query.options = query.options ? JSON.parse(query.options) : null;
     const index = await db
       .collection(params.name)
-      .indexInformation(query.options)
+      .indexInformation(query.options);
     mongo.close();
 
-    return index
-  }
+    return index;
+  },
 };
