@@ -1,11 +1,9 @@
 const collections = require("./collections");
-const documents = require("./documents");
 
 module.exports = async (app) => {
   app.get("/", async (request, reply) => {
-    return "Welcome to mongo-rest";
+    return "Welcome to mongo-api";
   });
 
   app.register(collections, { prefix: "/collections" });
-  // app.register(documents, { prefix: '/documents' })
 };
