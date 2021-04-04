@@ -3,6 +3,19 @@ const Mongo = require("../Mongo");
 const wrap_id = require("../utils/wrap_id");
 
 module.exports = {
+  async insertOne(request, reply) {
+    const { headers, params, query, body } = request;
+    const mongo = new Mongo(headers.mongo);
+    const db = await mongo.open();
+    query.options = query.options ? JSON.parse(query.options) : null;
+    const { result, ops, insertedCount, insertedId } = await db
+      .collection(params.name)
+      .insertOne(body, query.options);
+    mongo.close();
+
+    return { result, ops, insertedCount, insertedId };
+  },
+
   async find(request, reply) {
     const { headers, params, query } = request;
 
@@ -62,7 +75,7 @@ module.exports = {
   },
 
   async deleteOne(request, reply) {
-    const { headers, params, query } = request;
+    const { headers, params, query, body } = request;
 
     const mongo = new Mongo(headers.mongo);
     const db = await mongo.open();
@@ -72,6 +85,58 @@ module.exports = {
     const { result, deletedCount } = await db
       .collection(params.name)
       .deleteOne(query.filter, query.options);
+    mongo.close();
+    return { result, deletedCount };
+  },
+
+  async insertMany(request, reply) {
+    const { headers, params, query, body } = request;
+
+    const mongo = new Mongo(headers.mongo);
+    const db = await mongo.open();
+    const doc = Array.isArray(body) ? body : [body];
+    query.options = query.options ? JSON.parse(query.options) : null;
+    const { result, ops, insertedCount, insertedId } = await db
+      .collection(params.name)
+      .insertMany(doc, query.options);
+    mongo.close();
+
+    return { result, ops, insertedCount, insertedId };
+  },
+
+  async updateMany(request, reply) {
+    const { headers, params, query, body } = request;
+
+    const mongo = new Mongo(headers.mongo);
+    const db = await mongo.open();
+    query.filter = query.filter ? wrap_id(JSON.parse(query.filter)) : {};
+    query.options = query.options ? JSON.parse(query.options) : null;
+
+    const {
+      result,
+      modifiedCount,
+      upsertedCount,
+      matchedCount,
+      upsertedId,
+    } = await db
+      .collection(params.name)
+      .updateMany(query.filter, body, query.options);
+    mongo.close();
+
+    return { result, modifiedCount, upsertedCount, matchedCount, upsertedId };
+  },
+
+  async deleteMany(request, reply) {
+    const { headers, params, query, body } = request;
+
+    const mongo = new Mongo(headers.mongo);
+    const db = await mongo.open();
+    query.filter = query.filter ? wrap_id(JSON.parse(query.filter)) : {};
+    query.options = query.options ? JSON.parse(query.options) : null;
+
+    const { result, deletedCount } = await db
+      .collection(params.name)
+      .deleteMany(query.filter, query.options);
     mongo.close();
     return { result, deletedCount };
   },

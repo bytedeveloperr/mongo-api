@@ -20,7 +20,7 @@ module.exports = {
     await db.createCollection(body.name, body.options);
     mongo.close();
 
-    return { created: true, name: body.name };
+    return { created: true, collection: body.name };
   },
 
   async rename(request, reply) {
