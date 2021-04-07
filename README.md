@@ -42,3 +42,19 @@ Note: All API endpoints have an optional query parameter called options.
 |Create a collection|/collections|POST|{ "name": "name" }
 |Rename a collection|/collections/:name|PUT|{ "from": "old collection name", "to":"new collection name"}
 |Delete a collection|/collections/:name|DELETE|
+|Insert a document in a collection|/collections/:name/insert-one|POST|{/*...key: value*/}
+|Insert many documents in a collection|/collections/:name/insert-many|POST|[{/*...key: value*/}]
+|Find documents in a collection|/collections/:name/find|GET|
+|Find one document in a collection|/collections/:name/find-one|GET|
+|Find Distincts Docs in a collection|/collections/:name/distinct|GET|
+|Run aggregration pipelines on documents in a collection|/collections/:name/aggregate|GET|
+|Update a document in a collection|/collections/:name/update-one|PUT|{/*...key: value*/}
+|Update many documents in a collection|/collections/:name/update-many|PUT|[{/*...key: value*/}]
+|Delete a document in a collection|/collections/:name/delete-one|DELETE|
+|Delete many documents in a collection|/collections/:name/delete-many|DELETE|
+|Get all indexes in a collection|/collections/:name/indexes|GET|
+|Create index(es) in a collection|/collections/:name/create-index|POST|[{/* indexes */}]
+|Drop an index in a collection|/collections/:name/drop-index|DELETE|
+|Drop all indexes in a collection|/collections/:name/drop-indexes|DELETE|
+|Get information about all indexes in a collection|/collections/:name/index-information|GET|
+
